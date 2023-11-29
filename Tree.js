@@ -44,6 +44,13 @@ const Tree = (array) => {
 
     };
 
+    const findMinNode = (node) => {
+        // Find the leftmost node in the subtree
+        while (node.leftChild !== null) {
+            node = node.leftChild;
+        }
+        return node;
+    };
 
     const deleteNode = (value, pointer = rootNode, parentNode = null, isLeftChild = false) => {
         if (pointer === null) {
@@ -69,13 +76,13 @@ const Tree = (array) => {
                     }
                 } else {
                     // The deleted node is the root node
-                    pointer = null;
+                    rootNode = null;
                 }
                 prettyPrint(rootNode); // Visualize the updated tree structure
             }
 
             // Case: Node has 1 child
-            if (pointer.leftChild == null) {
+            if (pointer.leftChild == null && pointer.rightChild !== null) {
                 let temp = pointer.rightChild
                 if(parentNode.data < temp.data) {
                     parentNode.rightChild= temp
@@ -84,8 +91,8 @@ const Tree = (array) => {
                     parentNode.leftChild=temp
                 }
                 pointer.rightChild= null
-                prettyPrint(rootNode);
-            } else if (pointer.rightChild == null) {
+
+            } else if (pointer.rightChild == null && pointer.leftChild !== null) {
                 let temp = pointer.leftChild
                 if(parentNode.data < temp.data) {
                     parentNode.rightChild= temp
@@ -94,8 +101,17 @@ const Tree = (array) => {
                     parentNode.leftChild=temp
                 }
                 pointer.leftChild= null
-                prettyPrint(rootNode);
+
+            } 
+            
+            //Case: Node has both children
+            else {
+                const successor = findMinNode(pointer.rightChild);
+                pointer.data= successor.data
+                deleteNode(successor.data, pointer.rightChild, pointer, false);
+
             }
+            prettyPrint(rootNode)
         }
     };
 
@@ -125,4 +141,4 @@ myTree.insertNode(8);
 myTree.insertNode(4);
 myTree.insertNode(-4);
 myTree.deleteNode(8);
-myTree.deleteNode(1);
+myTree.deleteNode(2);
