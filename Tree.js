@@ -73,6 +73,29 @@ const Tree = (array) => {
                 }
                 prettyPrint(rootNode); // Visualize the updated tree structure
             }
+
+            // Case: Node has 1 child
+            if (pointer.leftChild == null) {
+                let temp = pointer.rightChild
+                if(parentNode.data < temp.data) {
+                    parentNode.rightChild= temp
+                }
+                else {
+                    parentNode.leftChild=temp
+                }
+                pointer.rightChild= null
+                prettyPrint(rootNode);
+            } else if (pointer.rightChild == null) {
+                let temp = pointer.leftChild
+                if(parentNode.data < temp.data) {
+                    parentNode.rightChild= temp
+                }
+                else {
+                    parentNode.leftChild=temp
+                }
+                pointer.leftChild= null
+                prettyPrint(rootNode);
+            }
         }
     };
 
@@ -101,4 +124,5 @@ const myTree = Tree([1, 2, 3]);
 myTree.insertNode(8);
 myTree.insertNode(4);
 myTree.insertNode(-4);
-myTree.deleteNode(-4);
+myTree.deleteNode(8);
+myTree.deleteNode(1);
