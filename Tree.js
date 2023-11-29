@@ -24,7 +24,7 @@ const Tree = (array) => {
 
     //Insert new node into the tree
     const insertNode = (value, pointer = rootNode) => {
-        if (value < pointer.value) {
+        if (value < pointer.data) {
             if (pointer.leftChild === null) {
                 pointer.leftChild = createNode(value);
                 prettyPrint(rootNode);
@@ -32,7 +32,7 @@ const Tree = (array) => {
                 insertNode(value, pointer.leftChild);
             }
 
-        } else if(value > pointer.value) {
+        } else if(value > pointer.data) {
             if (pointer.rightChild === null) {
                 pointer.rightChild = createNode(value);
                 prettyPrint(rootNode);
@@ -40,15 +40,40 @@ const Tree = (array) => {
                 insertNode(value, pointer.rightChild);
             }
 
-        } else {
-            createNode(value)
         }
 
     };
 
 
-    const deleteNode = (value, pointer = rootNode) => {
-        
+    const deleteNode = (value, pointer = rootNode, parentNode = null, isLeftChild = false) => {
+        if (pointer === null) {
+            // Node not found
+            return;
+        }
+    
+        if (value < pointer.data) {
+            deleteNode(value, pointer.leftChild, pointer, true);
+        } else if (value > pointer.data) {
+            deleteNode(value, pointer.rightChild, pointer, false);
+        } else {
+            // Node with the value found
+    
+            // Case: Node is a leaf (no children)
+            if (pointer.leftChild === null && pointer.rightChild === null) {
+                if (parentNode !== null) {
+                    // Set the appropriate child pointer of the parent to null
+                    if (isLeftChild) {
+                        parentNode.leftChild = null;
+                    } else {
+                        parentNode.rightChild = null;
+                    }
+                } else {
+                    // The deleted node is the root node
+                    pointer = null;
+                }
+                prettyPrint(rootNode); // Visualize the updated tree structure
+            }
+        }
     };
 
     //Binary Search tree visualization
@@ -74,3 +99,6 @@ const Tree = (array) => {
 // Example usage
 const myTree = Tree([1, 2, 3]);
 myTree.insertNode(8);
+myTree.insertNode(4);
+myTree.insertNode(-4);
+myTree.deleteNode(-4);
