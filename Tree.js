@@ -27,7 +27,6 @@ const Tree = (array) => {
         if (value < pointer.data) {
             if (pointer.leftChild === null) {
                 pointer.leftChild = createNode(value);
-                prettyPrint(rootNode);
             } else {
                 insertNode(value, pointer.leftChild);
             }
@@ -35,7 +34,6 @@ const Tree = (array) => {
         } else if(value > pointer.data) {
             if (pointer.rightChild === null) {
                 pointer.rightChild = createNode(value);
-                prettyPrint(rootNode);
             } else {
                 insertNode(value, pointer.rightChild);
             }
@@ -55,7 +53,7 @@ const Tree = (array) => {
     const deleteNode = (value, pointer = rootNode, parentNode = null, isLeftChild = false) => {
         if (pointer === null) {
             // Node not found
-            return;
+            return "No such node exists.";
         }
     
         if (value < pointer.data) {
@@ -78,7 +76,6 @@ const Tree = (array) => {
                     // The deleted node is the root node
                     rootNode = null;
                 }
-                prettyPrint(rootNode); // Visualize the updated tree structure
             }
 
             // Case: Node has 1 child
@@ -111,9 +108,20 @@ const Tree = (array) => {
                 deleteNode(successor.data, pointer.rightChild, pointer, false);
 
             }
-            prettyPrint(rootNode)
         }
     };
+
+    const find = (value, pointer= rootNode) => {
+        if (pointer == null) return "No such node exists.";
+
+        if(value < pointer.data) {
+            return find(value, pointer.leftChild);
+        }
+        else if(value > pointer.data) {
+            return find(value, pointer.rightChild);
+        }
+        else return {pointer};
+    }
 
     //Binary Search tree visualization
     const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -132,7 +140,7 @@ const Tree = (array) => {
     // Print the tree
     prettyPrint(rootNode);
 
-    return {rootNode, insertNode, deleteNode};
+    return {rootNode, insertNode, deleteNode, find};
 };
 
 // Example usage
@@ -142,3 +150,6 @@ myTree.insertNode(4);
 myTree.insertNode(-4);
 myTree.deleteNode(8);
 myTree.deleteNode(2);
+console.log(myTree)
+console.log(myTree.find(1));
+console.log(myTree.find(3));
