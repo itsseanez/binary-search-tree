@@ -153,6 +153,31 @@ const Tree = (array) => {
         return array;
     };
 
+    const inOrder = (rootNode, callBack= null) => {
+        let array= []
+
+        return array;
+    };
+
+    const preOrder = (rootNode, callBack= null) => {
+        let array= []
+        if (rootNode == null) return;
+
+        if (callBack !== null) {
+            callBack(rootNode);
+        }
+        array.push(rootNode.data);
+        newArray= array.concat(preOrder(rootNode.leftChild, callBack), preOrder(rootNode.rightChild, callBack))
+        filteredArray= newArray.filter(value => value !== undefined)
+        return filteredArray;
+    };
+
+    const postOrder = (rootNode, callBack= null) => {
+        let array= []
+
+        return array;
+    };
+
     //Binary Search tree visualization
     const prettyPrint = (node, prefix = "", isLeft = true) => {
         if (node === null) {
@@ -170,7 +195,7 @@ const Tree = (array) => {
     // Print the tree
     prettyPrint(rootNode);
 
-    return {rootNode, insertNode, deleteNode, find, levelOrder, prettyPrint};
+    return {rootNode, insertNode, deleteNode, find, levelOrder, prettyPrint, preOrder};
 };
 
 // Example usage
@@ -185,4 +210,4 @@ myTree.insertNode(24);
 myTree.insertNode(-12);
 myTree.insertNode(14);
 myTree.prettyPrint(myTree.rootNode)
-console.log(myTree.levelOrder(myTree.rootNode));
+console.log(myTree.preOrder(myTree.rootNode))
