@@ -111,6 +111,7 @@ const Tree = (array) => {
         }
     };
 
+    //Enter value to return node
     const find = (value, pointer= rootNode) => {
         if (pointer == null) return "No such node exists.";
 
@@ -121,7 +122,36 @@ const Tree = (array) => {
             return find(value, pointer.rightChild);
         }
         else return {pointer};
-    }
+    };
+
+    //Breadth first search
+    const levelOrder = (rootNode, callBack= null) => {
+        let array= []
+        let queue= [rootNode]
+        while (queue.length > 0) {
+            let currentNode= queue.shift();
+            if (currentNode !== null) {
+
+                //callback function
+                if (callBack !== null) {
+                    callBack(currentNode);
+                }
+
+                array.push(currentNode.data);
+
+                //if current node has children, add them to queue
+                if(currentNode.leftChild) {
+                    queue.push(currentNode.leftChild);
+                }
+                if(currentNode.rightChild) {
+                    queue.push(currentNode.rightChild);
+                }
+            }
+        }
+
+
+        return array;
+    };
 
     //Binary Search tree visualization
     const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -140,7 +170,7 @@ const Tree = (array) => {
     // Print the tree
     prettyPrint(rootNode);
 
-    return {rootNode, insertNode, deleteNode, find};
+    return {rootNode, insertNode, deleteNode, find, levelOrder, prettyPrint};
 };
 
 // Example usage
@@ -150,6 +180,9 @@ myTree.insertNode(4);
 myTree.insertNode(-4);
 myTree.deleteNode(8);
 myTree.deleteNode(2);
-console.log(myTree)
-console.log(myTree.find(1));
-console.log(myTree.find(3));
+myTree.insertNode(43);
+myTree.insertNode(24);
+myTree.insertNode(-12);
+myTree.insertNode(14);
+myTree.prettyPrint(myTree.rootNode)
+console.log(myTree.levelOrder(myTree.rootNode));
