@@ -153,10 +153,21 @@ const Tree = (array) => {
         return array;
     };
 
-    const inOrder = (rootNode, callBack= null) => {
-        let array= []
-
-        return array;
+    const inOrder = (rootNode, callBack = null) => {
+        let array = [];
+        if (rootNode == null) return array;
+    
+        const leftTree = inOrder(rootNode.leftChild, callBack);
+        
+        if (callBack !== null) {
+            callBack(rootNode);
+        }
+        
+        array.push(rootNode.data);
+    
+        const rightTree = inOrder(rootNode.rightChild, callBack);
+    
+        return leftTree.concat(array, rightTree);
     };
 
     const preOrder = (rootNode, callBack= null) => {
@@ -167,15 +178,26 @@ const Tree = (array) => {
             callBack(rootNode);
         }
         array.push(rootNode.data);
-        newArray= array.concat(preOrder(rootNode.leftChild, callBack), preOrder(rootNode.rightChild, callBack))
-        filteredArray= newArray.filter(value => value !== undefined)
+        const newArray= array.concat(preOrder(rootNode.leftChild, callBack), preOrder(rootNode.rightChild, callBack))
+        const filteredArray= newArray.filter(value => value !== undefined)
         return filteredArray;
     };
 
     const postOrder = (rootNode, callBack= null) => {
-        let array= []
+        let array = [];
+        if (rootNode == null) return array;
+    
+        const leftTree = postOrder(rootNode.leftChild, callBack);
+        
+        if (callBack !== null) {
+            callBack(rootNode);
+        }
+    
+        const rightTree = postOrder(rootNode.rightChild, callBack);
 
-        return array;
+        array.push(rootNode.data);
+    
+        return leftTree.concat(rightTree, array);
     };
 
     //Binary Search tree visualization
@@ -195,7 +217,7 @@ const Tree = (array) => {
     // Print the tree
     prettyPrint(rootNode);
 
-    return {rootNode, insertNode, deleteNode, find, levelOrder, prettyPrint, preOrder};
+    return {rootNode, insertNode, deleteNode, find, levelOrder, prettyPrint, preOrder, inOrder, postOrder};
 };
 
 // Example usage
@@ -211,3 +233,5 @@ myTree.insertNode(-12);
 myTree.insertNode(14);
 myTree.prettyPrint(myTree.rootNode)
 console.log(myTree.preOrder(myTree.rootNode))
+console.log(myTree.inOrder(myTree.rootNode))
+console.log(myTree.postOrder(myTree.rootNode))
