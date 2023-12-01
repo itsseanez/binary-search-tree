@@ -200,6 +200,19 @@ const Tree = (array) => {
         return leftTree.concat(rightTree, array);
     };
 
+    // Determines the height of a node.
+    const height = (node, pointer= rootNode, heightValue= 0) => {
+        if (pointer == null) return "Node does not exist";
+
+        if(node < pointer.data) {
+            return height(node, pointer.leftChild, ++heightValue)
+        } else if(node > pointer.data) {
+            return height(node, pointer.rightChild, ++heightValue)
+        } else {
+            return heightValue;
+        }
+    };
+
     //Binary Search tree visualization
     const prettyPrint = (node, prefix = "", isLeft = true) => {
         if (node === null) {
@@ -217,7 +230,7 @@ const Tree = (array) => {
     // Print the tree
     prettyPrint(rootNode);
 
-    return {rootNode, insertNode, deleteNode, find, levelOrder, prettyPrint, preOrder, inOrder, postOrder};
+    return {rootNode, insertNode, deleteNode, find, levelOrder, prettyPrint, preOrder, inOrder, postOrder, height};
 };
 
 // Example usage
@@ -235,3 +248,4 @@ myTree.prettyPrint(myTree.rootNode)
 console.log(myTree.preOrder(myTree.rootNode))
 console.log(myTree.inOrder(myTree.rootNode))
 console.log(myTree.postOrder(myTree.rootNode))
+console.log(myTree.height(14))
