@@ -200,16 +200,16 @@ const Tree = (array) => {
         return leftTree.concat(rightTree, array);
     };
 
-    // Determines the height of a node.
-    const height = (node, pointer= rootNode, heightValue= 0) => {
+    // Determines the depth of a node.
+    const depth = (node, pointer= rootNode, depthValue= 0) => {
         if (pointer == null) return "Node does not exist";
 
         if(node < pointer.data) {
-            return height(node, pointer.leftChild, ++heightValue)
+            return depth(node, pointer.leftChild, ++depthValue)
         } else if(node > pointer.data) {
-            return height(node, pointer.rightChild, ++heightValue)
+            return depth(node, pointer.rightChild, ++depthValue)
         } else {
-            return heightValue;
+            return depthValue;
         }
     };
 
@@ -230,7 +230,7 @@ const Tree = (array) => {
     // Print the tree
     prettyPrint(rootNode);
 
-    return {rootNode, insertNode, deleteNode, find, levelOrder, prettyPrint, preOrder, inOrder, postOrder, height};
+    return {rootNode, insertNode, deleteNode, find, levelOrder, prettyPrint, preOrder, inOrder, postOrder, depth};
 };
 
 // Example usage
@@ -248,4 +248,4 @@ myTree.prettyPrint(myTree.rootNode)
 console.log(myTree.preOrder(myTree.rootNode))
 console.log(myTree.inOrder(myTree.rootNode))
 console.log(myTree.postOrder(myTree.rootNode))
-console.log(myTree.height(14))
+console.log(myTree.depth(14))
